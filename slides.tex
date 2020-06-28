@@ -1,0 +1,163 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\QQ}{\mathbb{Q}}
+\newcommand{\NN}{\mathbb{N}}
+
+\setbeamercolor{block body alerted}{bg=alerted text.fg!10}
+\setbeamercolor{block title alerted}{bg=alerted text.fg!20}
+\setbeamercolor{block body}{bg=structure!10}
+\setbeamercolor{block title}{bg=structure!20}
+\setbeamercolor{block body example}{bg=green!10}
+\setbeamercolor{block title example}{bg=green!20}
+\setbeamertemplate{blocks}[rounded][shadow]
+
+\title{Perturbation-Stable Maximum Cut}
+\author{Yuchong Pan}
+\institute{UBC Beyond Worst-Case Analysis Seminars}
+%\date{\today}
+\date{June 30, 2020}
+
+\begin{document}
+    \frame{\titlepage}
+
+    \begin{frame}
+        \frametitle{{\sc Maximum Cut}}
+    
+        \begin{block}{Problem ({\sc Maximum Cut})}
+            \setlength{\leftmargini}{3.25em}
+            \begin{itemize}
+                \item[\bf Input:] An undirected graph $G = (V, E)$ with edge weights $w_e > 0$ for each $e \in E$.
+                \item[\bf Goal:] A cut $(A, B)$ that maximizes the weight of the \emph{crossing} edges. 
+            \end{itemize}
+        \end{block}
+
+        \pause
+
+        \begin{itemize}
+            \item {\sc Maximum Cut} is a type of $2$-clustering problem (e.g. weights measure dissimilarities).
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{{\sc Maximum Cut} Is $NP$-Hard}
+    
+        \begin{block}{Problem ({\sc Maximum Cut}, Decision Version)}
+            \setlength{\leftmargini}{4em}
+            \begin{itemize}
+                \item[\bf Input:] An undirected graph $G = (V, E)$ with edge weights $w_e > 0$ for each $e \in E$, and a positive integer $W$.
+                \item[\bf Output:] Yes iff.\ there is a set $S \subseteq V$ such that the weight of the \emph{crossing} edges is at least $W$.
+            \end{itemize}
+        \end{block}
+
+        \pause
+
+        \begin{block}{Problem ({\sc Partition}, Decision Version)}
+            \setlength{\leftmargini}{4em}
+            \begin{itemize}
+                \item[\bf Input:] $(c_1, \ldots, c_n) \in \ZZ^n$.
+                \item[\bf Output:] Yes iff.\ there is $I \subseteq [n]$ such that $\sum_{i \in I} c_i = \sum_{i \not \in I} c_i$.
+            \end{itemize}
+        \end{block}
+
+        \pause
+
+        \begin{block}{Proof Sketch ($\textsc{Partition} \leq_P \textsc{Maximum Cut}$)}
+            \begin{itemize}
+                \item $G = K_n$.
+                \item $w_{ij} = c_i c_j$ for all $i, j \in V, i \neq j$.
+                \item $W = \lceil \frac{1}{4} \sum c_i^2 \rceil$.
+            \end{itemize}
+        \end{block}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{{\sc Maximum Cut} Is $NP$-Hard}
+    
+        \begin{itemize}
+            \item {\sc Minimum Cut} is \emph{not} $NP$-hard and can be solved by the Maximum-Flow Minimum-Cut Theorem. \pause
+            \item {\bf Question:} Can't we negate the edge weights, yielding a {\sc Minimum Cut} instance? \pause
+            \item No! Polynomial-time algorithms solving {\sc Minimum Cut} require nonnegative edge weights.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Beyond Worst-Case: Exact Recovery}
+    
+        \begin{itemize}
+            \item {\bf Theme:} To recover the optimal solution in polynomial time in \emph{$\gamma$-perturbation-stable} instances, where $\gamma$ is as small as possible.
+        \end{itemize}
+
+        \pause
+
+        \begin{definition}[$\gamma$-Perturbation-Stability]
+            For $\gamma \geq 1$, an instance of {\sc Maximum Cut} is \emph{$\gamma$-perturbation-stable} if a cut $(A, B)$ is the \emph{unique} optimal solution to all \emph{$\gamma$-perturbations}, where each original edge weight $w_e$ is replaced with an edge weight $w_e' \in [\frac{1}{\gamma} w_e, w_e]$.
+        \end{definition}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{LP Relaxation, Take 1}
+    
+        \begin{itemize}
+            \item {\bf Question:} Can we use an LP relaxation similar to the one for {\sc Minimum Cut}, i.e.
+            \begin{alignat*}{4}
+                && \max \qquad && \sum_{e \in E} w_e x_e \\
+                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \qquad \forall e = uv & \in E. \\
+                && && x_e & \in [0, 1], & \qquad \forall e & \in E. \\
+                && && d_v & \in [0, 1], & \qquad \forall v & \in V.
+              \end{alignat*}
+              \pause
+              \vspace{-1em}
+              \item No! $x_e = 1$ for each $e \in E$ is a feasiable solution and maximizes the objective value. \pause
+              \item {\bf Question:} What about $x_e \leq d_u - d_v$ and $x_e \leq d_v - d_u$? \pause
+              \item This forces $x_e = 0$, instead of $x_e \leq |d_u - d_v|$.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{LP Relaxation, Take 2}
+    
+        \begin{itemize}
+            \item Let $x_{ij} \in \{ 0, 1 \}$ denote whether or not $i, j$ are on different sides of the cut, for all distinct $i, j \in V$. We denote by $x_{ij}$ and $x_{ji}$ the same variable. \pause
+            \item {\bf Intuition:} If $i, j$ are on different sides, and $i, k$ are also on different sides, then $j, k$ must be on the same sides. \pause
+            \item For any distinct $i, j, k \in V$, at most two of $x_{ij}, x_{ik}, x_{jk}$ are $1$. \pause
+            \begin{align*}
+                x_{ij} + x_{ik} + x_{jk} \leq 2, && \forall i, j, k \in V \text{ distinct}.
+            \end{align*}
+            \pause
+            \vspace{-1em}
+            \item {\bf Intuition:} If $i, j$ are on the same side, and $i, k$ are on the same side, then $j, k$ are on the same side. \pause
+            \item For any distinct $i, j, k \in V$, $x_{ij} = x_{ik} = 0$ implies $x_{jk} = 0$. \pause
+            \begin{align*}
+                x_{jk} \leq x_{ij} + x_{ik}, && \forall i, j, k \in V \text{ distinct}.
+            \end{align*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{LP Relaxation, Take 2}
+    
+        \begin{itemize}
+            \item Hence we obtain the LP relaxation {\sc (LP-MaxCut)}:
+            \begin{alignat*}{4}
+                && \max \qquad && \sum_{(i, j) \in E} w_{ij} x_{ij} \\
+                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \quad \forall e = uv & \in E. \\
+                && && x_{ij} + x_{ik} + x_{jk} & \leq 2, & \quad \forall i, j, k & \in V \text{ distinct}. \\
+                && && x_{jk} & \leq x_{ij} + x_{ik}, & \quad \forall i, j, k & \in V \text{ distinct}. \\
+                && && x_{ij} & \in [0, 1], & \quad \forall i, j & \in V \text{ distinct}.
+              \end{alignat*}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Main Theorem}
+
+        \begin{theorem}
+            There is a constant $c > 0$ such that in every $(c \log n)$-perturbation-stable instance of {\sc Maximum Cut} with $n$ vertices, {\sc (LP-MaxCut)} solves to integers.
+        \end{theorem}
+    \end{frame}
+\end{document}
