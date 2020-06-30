@@ -110,8 +110,8 @@
             \item {\bf Question:} Can we use an LP relaxation similar to the one for {\sc Minimum Cut}, i.e.
             \begin{alignat*}{4}
                 && \max \qquad && \sum_{e \in E} w_e x_e \\
-                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \qquad \forall e = uv & \in E. \\
-                && && x_e & \in [0, 1], & \qquad \forall e & \in E. \\
+                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \qquad \forall e = uv & \in E, \\
+                && && x_e & \in [0, 1], & \qquad \forall e & \in E, \\
                 && && d_v & \in [0, 1], & \qquad \forall v & \in V.
               \end{alignat*}
               \pause
@@ -149,9 +149,9 @@
             \item Hence we obtain the LP relaxation {\sc (LP-MaxCut)}:
             \begin{alignat*}{4}
                 && \max \qquad && \sum_{(i, j) \in E} w_{ij} x_{ij} \\
-                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \quad \forall e = uv & \in E. \\
-                && && x_{ij} + x_{ik} + x_{jk} & \leq 2, & \quad \forall i, j, k & \in V \text{ distinct}. \\
-                && && x_{jk} & \leq x_{ij} + x_{ik}, & \quad \forall i, j, k & \in V \text{ distinct}. \\
+                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \quad \forall e = uv & \in E, \\
+                && && x_{ij} + x_{ik} + x_{jk} & \leq 2, & \quad \forall i, j, k & \in V \text{ distinct}, \\
+                && && x_{jk} & \leq x_{ij} + x_{ik}, & \quad \forall i, j, k & \in V \text{ distinct}, \\
                 && && x_{ij} & \in [0, 1], & \quad \forall i, j & \in V \text{ distinct}.
               \end{alignat*}
         \end{itemize}
@@ -427,7 +427,7 @@
     \end{frame}
 
     \begin{frame}
-        \frametitle{Semidefnite Programming}
+        \frametitle{Semidefinite Programming}
     
         \begin{definition}[Positive Semidefinite Matrices]
             A matrix $\mathbf X \in \RR^{n \times n}$ is \emph{positive semidefinite} (or \emph{psd}), denoted $\mathbf X \succeq 0$, if $\mathbf y^T \mathbf X \mathbf y \geq 0$ for all $y \in \RR^n$.
@@ -448,7 +448,7 @@
         \frametitle{Semidefinite Programming}
     
         \begin{definition}[Semidefinite Programming, SDP]
-            A \emph{semidefinite program}, or \emph{SDP}, is a mathematical program with real-valued variables, a linear objective function, linear constraints, and additionally a square symmetric matrix of variables constrained to be psd.
+            A \emph{semidefinite program}, or \emph{SDP}, is a mathematical program with real-valued variables, a linear objective function, linear constraints, and a square symmetric matrix of variables constrained to be psd.
         \end{definition}
 
         \pause
@@ -461,6 +461,9 @@
                 && && x_{ij} &= x_{ji}, & \qquad \forall i, j & \in [n], \nonumber \\
                 && && \mathbf X = \left(x_{ij}\right) & \succeq 0. \nonumber
               \end{alignat}
+              \pause
+              \vspace{-2em}
+              \item SDP can be solved to within an additive error of $\epsilon$ in polynomial time in the size of the input and $\log(\frac{1}{\epsilon})$.
         \end{itemize}
     \end{frame}
 
@@ -502,5 +505,94 @@
                 \item Hence $\mathbf X$ is a feasible solution to \eqref{example:sdp} with the same value.
             \end{itemize}
         \end{proof}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Quadratic Programming Formulation}
+    
+        \begin{itemize}
+            \item {\bf Recall:} We obtained exact recovery in $\Theta(\log n)$-perturbation-stable instances of {\sc Maximum Cut}. \pause
+            \item {\bf Goal:} To get exact recovery for smaller values of $\gamma$ by SDP. \pause
+            \item We start with a quadratic programming formulation, which suggests a vector programming relaxation since a vector program contains {\bf inner products} of the vectors. \pause
+            \item Let $z_i \in \{ -1, +1 \}$ for each $i \in V$ indicate which side of the cut $i$ belongs to. \pause
+            \item Hence, $z_i - z_j$ is $0$ if $i, j$ are on the same side of the cut, and $\pm 2$ otherwise. \pause
+            \item Equivalently, $(z_i - z_j)^2$ is $0$ if $i, j$ are on the same side of the cut, and $4$ otherwise.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Quadratic Programming Formulation}
+    
+        \begin{itemize}
+            \item Hence we obtain the {\bf exact} quadratic programming formulation of {\sc Maximum Cut}:
+            \begin{alignat*}{4}
+                && \max \qquad && \frac{1}{4} \sum_{ij \in E} w_{ij} (z_i - z_j)^2 \\
+                && \text{s.t.} \qquad && z_i & \in \{ -1, +1 \}, & \qquad \forall i & \in V.
+              \end{alignat*}
+              \pause
+              \item This quadratic program is {\bf equivalent} to {\sc Maximum Cut}. Hence optimizing this program is $NP$-hard.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Vector Programming Relaxation}
+    
+        \begin{itemize}
+            \item {\bf Recall:} Vector programming and SDP are equivalent and hence can be solved to within small error in polynomial time. \pause
+            \item Hence relaxing each $z_i \in \{ -1, 1 \}$ to a {\bf unit vector} $\mathbf v_i \in \RR^n$ and therefore replacing quadratic terms with inner products yield a vector program that is computationally tractable:
+            \begin{alignat*}{4}
+                && \max \qquad && \frac{1}{4} \sum_{ij \in E} w_{ij} \left\lVert \mathbf v_i - \mathbf v_j \right\rVert^2 \\
+                && && \left\lVert \mathbf v_i \right\rVert^2 &= 1, & \qquad \forall i & \in V, \\
+                && \text{s.t.} \qquad && \mathbf v_i & \in \RR^n, & \qquad \forall i & \in V.
+              \end{alignat*}
+              \pause
+              \vspace{-1em}
+              \item The quadratic terms $\lVert \mathbf v_i - \mathbf v_j \rVert^2$ and $\lVert \mathbf v_i \rVert^2$ expands to sums of inner products $\mathbf v_i \cdot \mathbf v_i - 2 \cdot \mathbf v_i \cdot \mathbf v_j + \mathbf v_j \cdot \mathbf v_j$ and $\mathbf v_i \cdot \mathbf v_i$, respectively. \pause
+              \item This vector program is a relaxation of the quadratic program by setting $\mathbf v_i = (z_i, 0, \ldots, 0) \in \RR^n$.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Goemans-Williamson Approximation Algorithm}
+
+        \begin{itemize}
+            \item The above vector programming relaxation already leads to the best-known approximation algorithm for {\sc Maximum Cut}:
+        \end{itemize}
+
+        \pause
+
+        \begin{theorem}[Goemans-Williamson Approximation Algorithm]
+            There is a randomized $.878$-approximation algorithm for {\sc Maximum Cut}.
+        \end{theorem}
+
+        \pause
+
+        \begin{theorem}
+            Given the unique game conjecture there is no $\alpha$-approximation for {\sc Maximum Cut} with constant $\alpha > .878$ unless $P = NP$.
+        \end{theorem}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Vector Programming Relaxation}
+    
+        \begin{itemize}
+            \item For our purposes we want the vector programming relaxation to generalize the LP relaxation. Hence we want the analogs of the following two sets of constraints:
+            \begin{align*}
+                x_{ij} + x_{ik} + x_{jk} &\leq 2, && \forall i, j, k \in V \text{ distinct}, \\
+                x_{jk} &\leq x_{ij} + x_{ik}, && \forall i, j, k \in V \text{ distinct}.
+            \end{align*}
+            \pause
+            \vspace{-1em}
+            \item This implies the following two sets of constraints in the form of inner products:
+            {\small
+                \begin{align*}
+                    &\left\lVert \mathbf v_i - \mathbf v_j \right\rVert^2 + \left\lVert \mathbf v_i - \mathbf v_k \right\rVert^2 + \left\lVert \mathbf v_j - \mathbf v_k \right\rVert^2 \leq 8, && \forall i, j, k \in V \text{ distinct}, \\
+                    &\left\lVert \mathbf v_j - \mathbf v_k \right\rVert^2 \leq \left\lVert \mathbf v_i - \mathbf v_j \right\rVert^2 + \left\lVert \mathbf v_i - \mathbf v_k \right\rVert^2, && \forall i, j, k \in V \text{ distinct}.
+                \end{align*}
+            }
+            \pause
+            \vspace{-1em}
+            \item The extended vector program is still a relaxation for {\sc Maximum Cut} by setting $\mathbf v_i$ to $\pm e_1$ according to $i$'s side.
+        \end{itemize}
     \end{frame}
 \end{document}
