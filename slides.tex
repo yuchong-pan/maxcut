@@ -219,7 +219,7 @@
                 where $\alpha = \Theta(\log n)$;
                 \item For every edge $e = ij \in F^*$,
                 $$ \PP[\text{$e$ not cut by $(A, B)$}] \leq \sigma \cdot (1 - \hat x_{ij}); $$
-                \item The rounding algorithm is determinisitic iff.\ $\hat x$ is integral.
+                \item The rounding algorithm is deterministic iff.\ $\hat x$ is integral.
             \end{enumerate}
         \end{lemma}
     \end{frame}
@@ -249,7 +249,7 @@
         \pause
 
         \begin{itemize}
-            \item That is, $\mathbf{\hat x}, \mathbf{\hat y}$ are both \emph{semi-metrics} (metrics except that distinct points may have zero distances).
+            \item That is, $\mathbf{\hat x}, \mathbf{\hat y}$ are both {\bf pseudometrics} (i.e. metrics except that distinct points may have zero distances).
         \end{itemize}
     \end{frame}
 
@@ -257,7 +257,7 @@
         \frametitle{Randomized Rounding Algorithm, Roadmap}
     
         \begin{theorem}[Bourgain's Theorem]
-            For every $n$-point \emph{semi-metric} space $(X, d)$, there exists a randomized algorithm that generates a random partition $(A, B)$ of $X$ and a scaling parameter $\sigma > 0$ such that, for all distinct $i, j \in X$,
+            For every $n$-point \emph{pseudometric} space $(X, d)$, there exists a randomized algorithm that generates a random partition $(A, B)$ of $X$ and a scaling parameter $\sigma > 0$ such that, for all distinct $i, j \in X$,
             $$ \PP[\text{$i, j$ on different sides of $(A, B)$}] \in \sigma \cdot \left[\frac{d(i, j)}{\alpha}, d(i, j)\right], $$
             where $\alpha = \Theta(\log n)$.
         \end{theorem}
@@ -266,7 +266,7 @@
 
         \begin{itemize}
             \item That is, every $n$-point metric space admits a randomized partitioning algorithm so that the sepration probabilities between pairs of points are \emph{proportional} to the distances, up to a $\Theta(\log n)$ factor. \pause
-            \item The $\Theta(\log n)$ approximation factor is the best possible for \emph{arbitrary} semi-metric spaces.
+            \item The $\Theta(\log n)$ approximation factor is the best possible for {\bf arbitrary} pseudometric spaces.
         \end{itemize}
     \end{frame}
 
@@ -278,7 +278,7 @@
             \begin{itemize}
                 \item Fix an instance of {\sc Maximum Cut}. Let $C^*$ denote an optimal cut, cutting the edges $F^*$. \pause
                 \item Let $\mathbf{\hat x}$ be an optimal solution to {\sc (LP-MaxCut)}. Define $\mathbf{\hat y}$ as in Proposition (with $C^*$ being the cut). \pause
-                \item By Proposition, $\mathbf{\hat y}$ is a semi-metric. \pause
+                \item By Proposition, $\mathbf{\hat y}$ is a pseudometric. \pause
                 \item By Bourgain's Theorem, there is a randomized algorithm that outputs a partition $(A, B)$ and $\sigma > 0$ such that
                 $$ \PP[\text{$i, j$ on different sides of $(A, B)$}] = \sigma \cdot \left[\frac{\hat y_{ij}}{\alpha}, \hat y_{ij}\right], $$
                 where $\alpha = \Theta(\log n)$.
@@ -592,7 +592,154 @@
             }
             \pause
             \vspace{-1em}
-            \item The extended vector program is still a relaxation for {\sc Maximum Cut} by setting $\mathbf v_i$ to $\pm e_1$ according to $i$'s side.
+            \item The extended vector program, which we call {\sc (VP-MaxCut)}, is still a relaxation for {\sc Maximum Cut} by setting $\mathbf v_i$ to $\pm e_1$ according to $i$'s side.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+    
+        \begin{itemize}
+            \item Recall the roadmap for the proof of the exact recovery for {\sc Maximum Cut} with $\gamma = \Theta(\log n)$. \pause
+            \item We first proved a proposition saying that if $\mathbf{\hat x}$ is a pseudometric, then $\mathbf{\hat y}$ defined below is also a pseudometric:
+            $$ \hat y_{ij} = \left\{
+                \begin{array}{ll}
+                    \hat x_{ij}, & \text{if $i, j$ are on the same side of $C$}, \\
+                    1 - \hat x_{ij}, & \text{if $i, j$ are on different sides of $C$}.
+                \end{array}
+            \right. $$
+            \pause
+            \item This proposition and Bourgain's Theorem imply the lemma for the existence of randomized rounding algorithm that outputs a (random) cut such that the probability of an edge being cut is approximately the same as the value of the corresponding decision variable. \pause
+            \item The lemma then implies the exact recovery theorem by a common pattern used in perturbation-stable {\sc Minimum Cut} and {\sc Minimum Multiway Cut}.
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+    
+        \begin{itemize}
+            \item Fix an instance of {\sc Maximum Cut}. Let $\mathbf{\hat v}_i$'s be an optimal solution to the vector program. Let $\hat x_{ij} = \frac{1}{4} \lVert \mathbf v_i - \mathbf v_j \rVert^2$ for any distinct $i, j \in V$. \pause
+            \item $\mathbf{\hat x}$ is a metric by the triangle inequality constraints of {\sc (VP-MaxCut)}. \pause
+            \item Furthermore, $\hat x_{ij}$ represents the squared Euclidean distances between points in $\RR^k$ for some $k$.
+        \end{itemize}
+
+        \pause
+
+        \begin{definition}[$\ell_2^2$ Metrics]
+            A metric $(X, d)$ is an {\bf $\ell_2^2$ metric} if it represents squared Euclidean distances between points in $\RR^k$ for some $k$.
+
+            That is, there exists an embedding from $X$ to $\RR^k$ for some $k$ such that $d(\cdot, \cdot)$'s are squared Euclidean distances between points in $\RR^k$.
+        \end{definition}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+
+        \begin{itemize}
+            \item Not every metric is an $\ell_2^2$ metric, e.g. the discrete metric. \pause
+            \item The $\Theta(\log n)$ approximation in Bourgain's Theorem is the best possible for {\bf arbitrary} pseudometric spaces. \pause
+            \item {\bf Question:} Can the approximation factor $\alpha$ be improved for the more restricted $\ell_2^2$ metrics?
+        \end{itemize}
+
+        \pause
+    
+        \begin{theorem}[Arora, Lee, and Naor, 2005]
+            For every $n$-point $\ell_2^2$ metric space $(X, d)$, there exists a randomized algorithm that generates a random partition $(A, B)$ of $X$ and a scaling parameter $\sigma > 0$ such that, for all distinct $i, j \in X$,
+            $$ \PP[\text{$i, j$ on different sides of $(A, B)$}] \in \sigma \cdot \left[\frac{d(i, j)}{\alpha}, d(i, j)\right], $$
+            where $\alpha = O(\sqrt{\log n} \log \log n)$.
+        \end{theorem}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+    
+        \begin{itemize}
+            \item Arora, Lee, and Naor's Theorem gives the lower bound for the probability of an edge being cut. Similarly, we need an upper bound for the probability of an edge not being cut. \pause
+            \item Hence we prove an analog of the proposition used in the exact recovery with $\gamma = \Theta(\log n)$. That is, if $\mathbf{\hat x}$ is an $\ell_2^2$ metric, then so is the similarly defined $\mathbf{\hat y}$.
+        \end{itemize}
+
+        \pause
+
+        \begin{block}{Proposition}
+            Fix an instance of {\sc Maximum Cut}, a cut $C$, and a feasible solution $\mathbf{\hat v}_i$'s to {\sc (VP-MaxCut)}. Let $\mathbf{\hat x}$ be the induced $\ell_2^2$ metric $\hat x_{ij} = \frac{1}{4} \lVert \mathbf v_i - \mathbf v_j \rVert^2$. For distinct $i, j \in V$, define
+            $$ \hat y_{ij} = \left\{
+                \begin{array}{ll}
+                    \hat x_{ij}, & \text{if $i, j$ are on the same side of $C$}, \\
+                    1 - \hat x_{ij}, & \text{if $i, j$ are on different sides of $C$}.
+                \end{array}
+            \right. $$
+            Then $\mathbf {\hat y}$ is also an $\ell_2^2$ metric.
+        \end{block}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+    
+        \begin{proof}
+            \begin{itemize}
+                \item $\mathbf{\hat y}$ is a metric by the triangle inequality constraints of {\sc (VP-MaxCut)}. \pause
+                \item To prove that $\mathbf{\hat y}$ is an $\ell_2^2$ metric, we need to exhibit an embedding of $V$ into $\RR^k$ for some $k$ such that $\hat y_{ij}$'s are squared Euclidean distances between points in $\RR^k$. \pause
+                \item Define
+                $$ \hat u_i = \left\{
+                    \begin{array}{ll}
+                        \hat v_i, & \text{if $i \in A$}, \\
+                        -\hat v_i, & \text{if $i \in B$}.
+                    \end{array}
+                \right. $$
+                \pause
+                \item Then $\hat y_{ij} = \frac{1}{4} \lVert \hat u_i - \hat u_j \rVert^2$ for any distinct $i, j \in V$.
+            \end{itemize}
+        \end{proof}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+
+        \begin{lemma}
+            Fix an instance of {\sc Maximum Cut}, with $F^*$ the edges in the optimal cut, and $\mathbf v_i$'s the optimal solution to {\sc (VP-MaxCut)}. Then there exists a randomized algorithm that generates a random cut $(A, B)$ and a scaling parameter $\sigma > 0$ such that:
+            \begin{enumerate}
+                \item For every edge $e = ij \not \in F^*$,
+                $$ \PP[\text{$e$ cut by $(A, B)$}] \geq \sigma \cdot \frac{\frac{1}{4} \lVert \mathbf v_i - \mathbf v_j \rVert^2}{\alpha}, $$
+                where $\alpha = \Theta(\sqrt{\log n} \log \log n)$;
+                \item For every edge $e = ij \in F^*$,
+                $$ \PP[\text{$e$ not cut by $(A, B)$}] \leq \sigma \cdot \left(1 - \frac{1}{4} \left\lVert \mathbf v_i - \mathbf v_j \right\rVert\right); $$
+                \item The rounding algorithm is deterministic iff.\ $\mathbf{\hat v}_i$'s are integral.
+            \end{enumerate}
+        \end{lemma}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Improved Exact Recovery, Roadmap}
+
+        \begin{itemize}
+            \item By $\mathbf{\hat v_i}$'s being {\bf integral}, we mean that there exist antipodal unit vectors $\mathbf w, -\mathbf w$ such that $\mathbf{\hat v_i} \in \{ \mathbf w, -\mathbf w \}$ for each $i \in V$. \pause
+            \item As the lemma implies the main theorem in the exact recovery with $\gamma = \Theta(\log n)$, the above lemma implies the following theorem by an analagous argument:
+        \end{itemize}
+
+        \pause
+    
+        \begin{theorem}
+            There is a constant $c > 0$ such that in every $(c \sqrt{\log n} \log \log n)$-perturbation-stable instance of {\sc Maximum Cut} with $n$ vertices, every optimal solution to {\sc (VP-MaxCut)} is integral.
+        \end{theorem}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Can We Do Better?}
+
+        \begin{theorem}
+            There exist $O(\sqrt{\log n})$-perturbation-stable instances of {\sc Maximum Cut} for which the optimal solution to {\sc (VP-MaxCut)} is not integral.
+        \end{theorem}
+
+        \pause
+    
+        \begin{theorem}
+            Assuming the Unique Game Conjecture, for every constant $\gamma \geq 1$, there is no polynomial-time algorithm for certifiable exact recovery in $\gamma$-perturbation-stable instances of {\sc Maximum Cut}.
+        \end{theorem}
+
+        \pause
+
+        \begin{itemize}
+            \item Both results are based upon a reduction from {\sc Sparsest Cut} to {\sc Maximum Cut}. See \emph{Bilu–Linial Stable Instances of Max Cut and Minimum Multiway} by Makarychev, Makarychev, and Vijayaraghavan (2013) and Homework \#4.
         \end{itemize}
     \end{frame}
 \end{document}
