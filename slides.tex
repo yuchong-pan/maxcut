@@ -364,9 +364,25 @@
         \pause
 
         \begin{itemize}
-            \item {\bf Exercise:} Prove Lemma. \pause
             \item Lemma and Bourgain's Metric Embedding Theorem imply Bourgain's Theorem in the proof of the main theorem.
         \end{itemize}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Bourgain's Theorem \& {\sc Sparsest Cut}}
+    
+        \begin{proof}
+            \begin{itemize}
+                \item ($\Longleftarrow$) Let $(X, d)$ be a nonnegative linear combination of cut metrics, i.e. $d = \sum_{k = 1}^m \lambda_k \delta_{S_k}$ where $\lambda_k \geq 0$ and $S_k \subseteq X$. \pause
+                \item Let $\mathbf v_i \in \RR^m$ be such that $(\mathbf v_i)_k = \lambda_k$ if $x_i \in S_k$ and $(\mathbf v_i)_k = 0$ otherwise, for $i \in [n], k \in [m]$. \pause
+                \item Then $d(x_i, x_j) = \lVert \mathbf v_i - \mathbf v_j \rVert_1$. Hence $d$ is an $\ell_1$ metric. \pause
+                \item ($\Longrightarrow$) Let $(X, d)$ be an $\ell_1$ metric, i.e. $\exists \mathbf v_1, \ldots, \mathbf v_n \in \RR^m$ such that $d(x_i, x_j) = \lVert \mathbf v_i - \mathbf v_j \rVert_1$ for $i, j \in [n]$. \pause
+                \item Since $\ell_1$ norms are {\bf additive}, then it suffices to show for $m = 1$ that $d = \sum_{S \subseteq X} \lambda_S \delta_S$ where $\lambda_S \geq 0$. \pause
+                \item For $m = 1$, we have $d(x_i, x_j) = |v_i - v_j|$ where $v_1, \ldots, v_n \in \RR$. \pause
+                \item Without loss of generality, $v_1 \leq \ldots \leq v_n$. \pause
+                \item Then $d = \sum_{k = 1}^{n - 1} (v_{k + 1} - v_k) \delta_{[k]}$.
+            \end{itemize}
+        \end{proof}
     \end{frame}
 
     \begin{frame}
