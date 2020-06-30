@@ -36,7 +36,7 @@
             \setlength{\leftmargini}{3.25em}
             \begin{itemize}
                 \item[\bf Input:] An undirected graph $G = (V, E)$ with edge weights $w_e > 0$ for each $e \in E$.
-                \item[\bf Goal:] A cut $(A, B)$ that maximizes the weight of the \emph{crossing} edges. 
+                \item[\bf Goal:] A cut $(A, B)$ that maximizes the weight of the {\bf crossing} edges. 
             \end{itemize}
         \end{block}
 
@@ -54,7 +54,7 @@
             \setlength{\leftmargini}{4em}
             \begin{itemize}
                 \item[\bf Input:] An undirected graph $G = (V, E)$ with edge weights $w_e > 0$ for each $e \in E$, and a positive integer $W$.
-                \item[\bf Output:] Yes iff.\ there is a set $S \subseteq V$ such that the weight of the \emph{crossing} edges is at least $W$.
+                \item[\bf Output:] Yes iff.\ there is a set $S \subseteq V$ such that the weight of the {\bf crossing} edges is at least $W$.
             \end{itemize}
         \end{block}
 
@@ -83,7 +83,7 @@
         \frametitle{{\sc Maximum Cut} Is $NP$-Hard}
     
         \begin{itemize}
-            \item {\sc Minimum Cut} is \emph{not} $NP$-hard and can be solved by the Maximum-Flow Minimum-Cut Theorem. \pause
+            \item {\sc Minimum Cut} is {\bf not} $NP$-hard and can be solved by the Maximum-Flow Minimum-Cut Theorem. \pause
             \item {\bf Question:} Can't we negate the edge weights, yielding a {\sc Minimum Cut} instance? \pause
             \item No! Polynomial-time algorithms solving {\sc Minimum Cut} require nonnegative edge weights.
         \end{itemize}
@@ -93,13 +93,13 @@
         \frametitle{Exact Recovery}
     
         \begin{itemize}
-            \item {\bf Theme:} To recover the optimal solution in polynomial time in \emph{$\gamma$-perturbation-stable} instances, where $\gamma$ is as small as possible.
+            \item {\bf Theme:} To recover the optimal solution in polynomial time in {\bf $\gamma$-perturbation-stable} instances, where $\gamma$ is as small as possible.
         \end{itemize}
 
         \pause
 
         \begin{definition}[$\gamma$-Perturbation-Stability]
-            For $\gamma \geq 1$, an instance of {\sc Maximum Cut} is \emph{$\gamma$-perturbation-stable} if a cut $(A, B)$ is the \emph{unique} optimal solution to all \emph{$\gamma$-perturbations}, where each original edge weight $w_e$ is replaced with an edge weight $w_e' \in [\frac{1}{\gamma} w_e, w_e]$.
+            For $\gamma \geq 1$, an instance of {\sc Maximum Cut} is {\bf $\gamma$-perturbation-stable} if a cut $(A, B)$ is the {\bf unique} optimal solution to all {\bf $\gamma$-perturbations}, where each original edge weight $w_e$ is replaced with an edge weight $w_e' \in [\frac{1}{\gamma} w_e, w_e]$.
         \end{definition}
     \end{frame}
 
@@ -257,7 +257,7 @@
         \frametitle{Randomized Rounding Algorithm, Roadmap}
     
         \begin{theorem}[Bourgain's Theorem]
-            For every $n$-point \emph{pseudometric} space $(X, d)$, there exists a randomized algorithm that generates a random partition $(A, B)$ of $X$ and a scaling parameter $\sigma > 0$ such that, for all distinct $i, j \in X$,
+            For every $n$-point {\bf pseudometric} space $(X, d)$, there exists a randomized algorithm that generates a random partition $(A, B)$ of $X$ and a scaling parameter $\sigma > 0$ such that, for all distinct $i, j \in X$,
             $$ \PP[\text{$i, j$ on different sides of $(A, B)$}] \in \sigma \cdot \left[\frac{d(i, j)}{\alpha}, d(i, j)\right], $$
             where $\alpha = \Theta(\log n)$.
         \end{theorem}
@@ -265,7 +265,7 @@
         \pause
 
         \begin{itemize}
-            \item That is, every $n$-point metric space admits a randomized partitioning algorithm so that the sepration probabilities between pairs of points are \emph{proportional} to the distances, up to a $\Theta(\log n)$ factor. \pause
+            \item That is, every $n$-point metric space admits a randomized partitioning algorithm so that the sepration probabilities between pairs of points are {\bf proportional} to the distances, up to a $\Theta(\log n)$ factor. \pause
             \item The $\Theta(\log n)$ approximation factor is the best possible for {\bf arbitrary} pseudometric spaces.
         \end{itemize}
     \end{frame}
@@ -314,7 +314,7 @@
         \frametitle{Dimensionality Reduction}
 
         \begin{definition}[$\alpha$-Embeddings]
-            Let $(X, d_X), (Y, d_Y)$ be metric spaces. We say that $\phi : X \to Y$ is an \emph{$\alpha$-embedding} if there exists $r > 0$ such that
+            Let $(X, d_X), (Y, d_Y)$ be metric spaces. We say that $\phi : X \to Y$ is an {\bf $\alpha$-embedding} if there exists $r > 0$ such that
             $$ r \cdot d_X(u, v) \leq d_Y(\phi(u), \phi(v)) \leq r \cdot \alpha \cdot d_X(u, v). $$
             for all $u, v \in X$.
         \end{definition}
@@ -348,7 +348,7 @@
         \pause
 
         \begin{itemize}
-            \item {\bf Remark:} There is a \emph{random linear map} such that for any $x_1, \ldots, x_n$ the above condition holds with probability at least $\frac{1}{2n}$. This linear map is \emph{oblivious}: it does not depend on $x_1, \ldots, x_n$ at all! In fact, the linear map is just a matrix whose entries are independent Gaussians.
+            \item {\bf Remark:} There is a {\bf random linear map} such that for any $x_1, \ldots, x_n$ the above condition holds with probability at least $\frac{1}{2n}$. This linear map is {\bf oblivious}: it does not depend on $x_1, \ldots, x_n$ at all! In fact, the linear map is just a matrix whose entries are independent Gaussians.
         \end{itemize}
     \end{frame}
 
@@ -370,7 +370,7 @@
         \frametitle{Bourgain's Theorem \& {\sc Sparsest Cut}}
     
         \begin{definition}[Cut Metrics]
-            A metric $(X, d)$ is a \emph{cut metric} if there exists $S \subseteq X$ such that $d(x, y) = 0$ whenever $x, y \in S$ or $x, y \not \in S$, and $d(x, y) = 1$ otherwise.
+            A metric $(X, d)$ is a {\bf cut metric} if there exists $S \subseteq X$ such that $d(x, y) = 0$ whenever $x, y \in S$ or $x, y \not \in S$, and $d(x, y) = 1$ otherwise.
         \end{definition}
 
         \pause
@@ -410,7 +410,7 @@
         \frametitle{Tree Metric Embedding}
     
         \begin{definition}[Tree Metrics]
-            A metric $(X, d)$ is a \emph{tree metric} if there exists a tree $T = (V, E)$ with edge costs $c_e$ for each $e \in E$ such that $d(u, v)$ is the cost of the unique path from $u$ to $v$ in $T$.
+            A metric $(X, d)$ is a {\bf tree metric} if there exists a tree $T = (V, E)$ with edge costs $c_e$ for each $e \in E$ such that $d(u, v)$ is the cost of the unique path from $u$ to $v$ in $T$.
         \end{definition}
 
         \pause
@@ -430,7 +430,7 @@
         \frametitle{Semidefinite Programming}
     
         \begin{definition}[Positive Semidefinite Matrices]
-            A matrix $\mathbf X \in \RR^{n \times n}$ is \emph{positive semidefinite} (or \emph{psd}), denoted $\mathbf X \succeq 0$, if $\mathbf y^T \mathbf X \mathbf y \geq 0$ for all $y \in \RR^n$.
+            A matrix $\mathbf X \in \RR^{n \times n}$ is {\bf positive semidefinite} (or {\bf psd}), denoted $\mathbf X \succeq 0$, if $\mathbf y^T \mathbf X \mathbf y \geq 0$ for all $y \in \RR^n$.
         \end{definition}
 
         \begin{fact}
@@ -448,7 +448,7 @@
         \frametitle{Semidefinite Programming}
     
         \begin{definition}[Semidefinite Programming, SDP]
-            A \emph{semidefinite program}, or \emph{SDP}, is a mathematical program with real-valued variables, a linear objective function, linear constraints, and a square symmetric matrix of variables constrained to be psd.
+            A {\bf semidefinite program}, or {\bf SDP}, is a mathematical program with real-valued variables, a linear objective function, linear constraints, and a square symmetric matrix of variables constrained to be psd.
         \end{definition}
 
         \pause
@@ -471,7 +471,7 @@
         \frametitle{Equivalence of SDP and Vector Programming}
     
         \begin{definition}[Vector Programming]
-            A \emph{vector program} is a mathematical program with variables $\mathbf v_i \in \RR^n$, where $n$ is the number of vectors, and an objective function and constraints linear in the inner products of the vectors.
+            A {\bf vector program} is a mathematical program with variables $\mathbf v_i \in \RR^n$, where $n$ is the number of vectors, and an objective function and constraints linear in the inner products of the vectors.
         \end{definition}
 
         \pause
