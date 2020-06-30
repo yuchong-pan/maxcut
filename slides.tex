@@ -149,8 +149,7 @@
             \item Hence we obtain the LP relaxation {\sc (LP-MaxCut)}:
             \begin{alignat*}{4}
                 && \max \qquad && \sum_{(i, j) \in E} w_{ij} x_{ij} \\
-                && \text{s.t.} \qquad && x_e & \geq \left|d_u - d_v\right|, & \quad \forall e = uv & \in E, \\
-                && && x_{ij} + x_{ik} + x_{jk} & \leq 2, & \quad \forall i, j, k & \in V \text{ distinct}, \\
+                && \text{s.t.} \qquad && x_{ij} + x_{ik} + x_{jk} & \leq 2, & \quad \forall i, j, k & \in V \text{ distinct}, \\
                 && && x_{jk} & \leq x_{ij} + x_{ik}, & \quad \forall i, j, k & \in V \text{ distinct}, \\
                 && && x_{ij} & \in [0, 1], & \quad \forall i, j & \in V \text{ distinct}.
               \end{alignat*}
@@ -299,14 +298,14 @@
                     $$ \PP[\text{$i, j$ on different sides of $(A, B)$}] \in \sigma \cdot \left[\frac{1 - \hat x_{ij}}{\alpha}, 1 - \hat x_{ij}\right]. $$
                 \end{enumerate}
                 \pause
-                \item Lemma follows.
+                \item (3) follows from the description of the randomized algorithm in Bourgain's Theorem.
             \end{itemize}
         \end{proof}
 
         \pause
 
         \begin{itemize}
-            \item {\bf Exercise:} Prove Proposition and Bourgain's Theorem (Homework \#4). For Bourgain's Theorem see e.g.\ CPSC 531F Tools for Modern Algorithm Analysis.
+            \item {\bf Exercise:} Prove Proposition and Bourgain's Theorem (Homework \#4).
         \end{itemize}
     \end{frame}
 
